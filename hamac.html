@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAMAC — Art. Drawing. Culture.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+:root {
+  --espresso: #2C1A0E;
+  --coffee:   #5C3317;
+  --mocha:    #7B4A26;
+  --latte:    #C4956A;
+  --cream:    #F2E8D9;
+  --parchment:#EDE0CC;
+  --sage:     #A8B89A;
+  --moss:     #7A9470;
+  --fern:     #556B4A;
+  --pale:     #D6E5C8;
+  --mist:     #EBF0E4;
+  --ink:      #1C120A;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+img  { display:block; max-width:100%; }
+
+body {
+  background: var(--cream);
+  color: var(--espresso);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+#cur  { position:fixed; width:9px; height:9px; background:var(--mocha); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .2s,height .2s; mix-blend-mode:multiply; }
+#curl { position:fixed; width:34px; height:34px; border:1.5px solid var(--moss); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .25s,height .25s; }
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1.2rem 3.5rem;
+  background:rgba(242,232,217,.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(92,51,23,.1);
+}
+.logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; letter-spacing:.18em; color:var(--espresso); text-decoration:none; }
+.logo span { color:var(--moss); }
+.nav-links { display:flex; gap:2.4rem; list-style:none; }
+.nav-links a { font-size:.73rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--coffee); text-decoration:none; position:relative; transition:color .3s; }
+.nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:1px; background:var(--moss); transition:width .35s; }
+.nav-links a:hover { color:var(--fern); }
+.nav-links a:hover::after { width:100%; }
+.nav-btn { font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; color:var(--cream); background:var(--espresso); padding:.7rem 1.6rem; text-decoration:none; transition:background .3s; }
+.nav-btn:hover { background:var(--fern); }
+
+/* HERO */
+.hero { display:grid; grid-template-columns:1fr 1fr; min-height:100vh; padding-top:68px; }
+
+.hero-l {
+  background:var(--parchment);
+  display:flex; flex-direction:column; justify-content:center;
+  padding:5rem 4.5rem 5rem 5rem; position:relative; overflow:hidden;
+}
+.hero-l::before {
+  content:''; position:absolute; bottom:-100px; left:-100px;
+  width:320px; height:320px; border-radius:50%;
+  border:1px solid rgba(122,148,112,.22); pointer-events:none;
+}
+.kicker { display:flex; align-items:center; gap:.9rem; margin-bottom:1.8rem; animation:fadeUp .7s ease .3s both; }
+.kicker-line { width:36px; height:1px; background:var(--moss); flex-shrink:0; }
+.kicker span { font-size:.65rem; letter-spacing:.28em; text-transform:uppercase; color:var(--moss); font-weight:500; }
+.hero-title { font-family:'Playfair Display',serif; font-size:clamp(3.2rem,5.5vw,6.8rem); font-weight:900; line-height:.93; letter-spacing:-.02em; color:var(--espresso); animation:fadeUp .8s ease .5s both; }
+.hero-title em { display:block; font-style:italic; color:var(--mocha); }
+.hero-title .gw { color:var(--fern); }
+.hero-desc { margin-top:1.8rem; font-size:.98rem; line-height:1.82; font-weight:300; color:var(--coffee); max-width:340px; animation:fadeUp .8s ease .7s both; }
+.hero-btns { margin-top:2.4rem; display:flex; align-items:center; gap:1.4rem; animation:fadeUp .8s ease .9s both; }
+.btn-dark { display:inline-flex; align-items:center; gap:.5rem; font-size:.72rem; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--cream); background:var(--espresso); padding:.95rem 2rem; text-decoration:none; transition:background .3s,transform .25s; }
+.btn-dark:hover { background:var(--fern); transform:translateY(-2px); }
+.btn-link { font-size:.72rem; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--coffee); text-decoration:none; border-bottom:1px solid var(--latte); padding-bottom:2px; transition:color .3s,border-color .3s; }
+.btn-link:hover { color:var(--fern); border-color:var(--fern); }
+
+.hero-r { position:relative; overflow:hidden; }
+.hero-r img { width:100%; height:100%; object-fit:cover; filter:sepia(12%) saturate(.88); transition:transform 7s ease; }
+.hero-r:hover img { transform:scale(1.04); }
+.hero-r-grad { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(44,26,14,.12),rgba(44,26,14,.45)); }
+.pill { position:absolute; display:flex; align-items:center; gap:.5rem; background:rgba(28,18,10,.8); backdrop-filter:blur(8px); color:var(--cream); font-size:.6rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; padding:.5rem 1rem; }
+.pill-dot { width:5px; height:5px; border-radius:50%; background:var(--sage); flex-shrink:0; }
+.p1 { top:26%; left:8%; animation:bob 4s ease-in-out infinite; }
+.p2 { bottom:20%; right:8%; background:rgba(85,107,74,.88); animation:bob 5s ease-in-out infinite reverse; }
+.vert-text { position:absolute; right:1rem; top:50%; transform:translateY(-50%) rotate(90deg); font-size:.54rem; letter-spacing:.28em; text-transform:uppercase; color:rgba(242,232,217,.45); white-space:nowrap; }
+
+/* MARQUEE */
+.marquee-wrap { background:var(--espresso); padding:.8rem 0; overflow:hidden; white-space:nowrap; }
+.marquee-track { display:inline-flex; align-items:center; animation:marquee 24s linear infinite; }
+.marquee-track span { font-family:'Playfair Display',serif; font-style:italic; font-size:.8rem; letter-spacing:.18em; color:var(--latte); padding:0 1.8rem; }
+.marquee-track .dot { color:var(--sage); font-style:normal; padding:0 .2rem; }
+
+/* SHARED UTILS */
+.eyebrow { display:flex; align-items:center; gap:.7rem; margin-bottom:1.6rem; }
+.eyebrow::before { content:''; width:26px; height:1px; background:var(--moss); flex-shrink:0; }
+.eyebrow span { font-size:.64rem; letter-spacing:.28em; text-transform:uppercase; color:var(--moss); font-weight:500; }
+.eyebrow.light::before { background:var(--sage); }
+.eyebrow.light span { color:var(--sage); }
+
+.sec-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,3.4vw,3.6rem); font-weight:900; line-height:1.05; color:var(--espresso); }
+.sec-title em { font-style:italic; color:var(--mocha); }
+.sec-title.light { color:var(--cream); }
+.sec-title.light em { color:var(--latte); }
+
+/* ABOUT */
+.about { display:grid; grid-template-columns:1fr 1fr; }
+
+.about-l { background:var(--mist); padding:7rem 5rem; display:flex; flex-direction:column; justify-content:center; }
+.about-body { font-size:.96rem; line-height:1.85; font-weight:300; color:var(--coffee); max-width:420px; margin-top:1.8rem; margin-bottom:1.2rem; }
+.stats { display:flex; gap:2.8rem; margin-top:2rem; padding-top:1.8rem; border-top:1px solid rgba(92,51,23,.12); }
+.stat-n { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:700; color:var(--mocha); line-height:1; display:block; }
+.stat-l { font-size:.6rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--sage); margin-top:.2rem; display:block; }
+
+.about-r { position:relative; overflow:hidden; min-height:520px; }
+.about-r img { width:100%; height:100%; object-fit:cover; filter:sepia(18%) saturate(.85); }
+.about-r-grad { position:absolute; inset:0; background:linear-gradient(to top,rgba(44,26,14,.5),transparent 55%); }
+.about-badge { position:absolute; bottom:2.5rem; left:2.5rem; background:var(--espresso); color:var(--cream); padding:1rem 1.5rem; }
+.about-badge-year { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; line-height:1; display:block; }
+.about-badge-lbl { font-size:.56rem; letter-spacing:.22em; text-transform:uppercase; color:var(--latte); margin-top:.22rem; display:block; }
+
+/* GALLERY */
+.gallery { padding:7rem 3.5rem; background:var(--parchment); }
+.gallery-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.8rem; }
+.link-all { display:inline-flex; align-items:center; gap:.4rem; font-size:.7rem; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--coffee); text-decoration:none; transition:color .3s; }
+.link-all:hover { color:var(--fern); }
+
+.g-grid {
+  display:grid;
+  grid-template-areas: "a b c" "a d e";
+  grid-template-columns:2fr 1.2fr 1.2fr;
+  grid-template-rows:280px 240px;
+  gap:10px;
+}
+.gi { position:relative; overflow:hidden; }
+.gi:nth-child(1) { grid-area:a; }
+.gi:nth-child(2) { grid-area:b; }
+.gi:nth-child(3) { grid-area:c; }
+.gi:nth-child(4) { grid-area:d; }
+.gi:nth-child(5) { grid-area:e; }
+.gi img { width:100%; height:100%; object-fit:cover; filter:sepia(10%) saturate(.9); transition:transform .55s ease; }
+.gi:hover img { transform:scale(1.06); }
+.gi-cap { position:absolute; inset:0; display:flex; align-items:flex-end; padding:1.2rem; background:linear-gradient(to top,rgba(44,26,14,.75),transparent 55%); opacity:0; transition:opacity .35s; }
+.gi:hover .gi-cap { opacity:1; }
+.gi-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--cream); display:block; }
+.gi-sub { font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:var(--sage); }
+
+/* SERVICES */
+.services { padding:7rem 3.5rem; background:var(--espresso); }
+.svc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:3.5rem; background:rgba(255,255,255,.06); }
+.svc { padding:2.6rem 2.2rem; background:var(--espresso); position:relative; transition:background .35s; }
+.svc::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:transparent; transition:background .35s; }
+.svc:hover { background:rgba(255,255,255,.04); }
+.svc:hover::before { background:var(--sage); }
+.svc-num { font-family:'Playfair Display',serif; font-size:3.8rem; font-weight:900; color:rgba(242,232,217,.04); line-height:1; margin-bottom:-.5rem; }
+.svc-icon { width:44px; height:44px; border:1px solid rgba(168,184,154,.25); display:flex; align-items:center; justify-content:center; color:var(--sage); margin-bottom:1.3rem; font-size:1.1rem; }
+.svc-title { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--cream); margin-bottom:.75rem; }
+.svc-body { font-size:.86rem; line-height:1.75; font-weight:300; color:rgba(196,149,106,.72); }
+.svc-tag { display:inline-flex; align-items:center; gap:.35rem; margin-top:1.3rem; padding:.28rem .8rem; border:1px solid rgba(168,184,154,.2); font-size:.57rem; letter-spacing:.18em; text-transform:uppercase; color:var(--sage); }
+
+/* EVENTS */
+.events { display:grid; grid-template-columns:1fr 1fr; background:var(--mist); }
+.events-l { padding:7rem 4.5rem; border-right:1px solid rgba(92,51,23,.1); }
+.event-row { display:grid; grid-template-columns:50px 1fr; gap:1.4rem; padding:1.5rem 0; border-bottom:1px solid rgba(92,51,23,.08); transition:padding-left .3s; }
+.event-row:hover { padding-left:.7rem; }
+.eday { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--mocha); line-height:1; display:block; }
+.emon { font-size:.52rem; letter-spacing:.18em; text-transform:uppercase; color:var(--moss); font-weight:500; }
+.ename { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--espresso); display:block; margin-bottom:.18rem; }
+.evenue { display:inline-flex; align-items:center; gap:.3rem; font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--moss); }
+.ebadge { display:inline-flex; align-items:center; gap:.3rem; margin-top:.4rem; padding:.18rem .65rem; background:rgba(122,148,112,.12); font-size:.55rem; letter-spacing:.14em; text-transform:uppercase; color:var(--fern); border-left:2px solid var(--moss); }
+
+.events-r { position:relative; overflow:hidden; min-height:500px; }
+.events-r img { width:100%; height:100%; object-fit:cover; filter:sepia(18%) saturate(.82); }
+.events-r-over { position:absolute; inset:0; background:linear-gradient(to top,rgba(44,26,14,.88) 0%,rgba(44,26,14,.2) 55%,transparent 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:3.5rem; }
+.ev-tag { font-size:.6rem; letter-spacing:.28em; text-transform:uppercase; color:var(--sage); font-weight:500; display:block; margin-bottom:.9rem; }
+.ev-head { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,3vw,3.2rem); font-weight:900; color:var(--cream); line-height:1.1; margin-bottom:1.4rem; }
+.ev-head em { font-style:italic; color:var(--latte); }
+.btn-event { display:inline-flex; align-items:center; gap:.5rem; font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; color:var(--cream); background:var(--coffee); padding:.8rem 1.7rem; text-decoration:none; transition:background .3s; }
+.btn-event:hover { background:var(--fern); }
+
+/* QUOTE */
+.quote-sec { background:var(--mocha); padding:6rem 6rem; text-align:center; position:relative; overflow:hidden; }
+.quote-sec::before { content:'\201C'; position:absolute; top:-2rem; left:2rem; font-family:'Playfair Display',serif; font-size:18rem; color:rgba(242,232,217,.05); line-height:1; pointer-events:none; }
+.quote-sec blockquote { font-family:'Playfair Display',serif; font-size:clamp(1.35rem,2.3vw,2.2rem); font-style:italic; color:var(--cream); max-width:740px; margin:0 auto; line-height:1.5; position:relative; z-index:1; }
+.quote-sec cite { display:flex; align-items:center; justify-content:center; gap:.5rem; margin-top:1.6rem; font-family:'DM Sans',sans-serif; font-size:.64rem; font-style:normal; font-weight:500; letter-spacing:.24em; text-transform:uppercase; color:var(--sage); }
+
+/* ARTISTS */
+.artists { padding:7rem 3.5rem; background:var(--cream); }
+.artists-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:3.2rem; }
+.acard { position:relative; overflow:hidden; }
+.acard img { width:100%; aspect-ratio:3/4; object-fit:cover; filter:sepia(10%) saturate(.88); transition:transform .55s ease; }
+.acard:hover img { transform:scale(1.06); }
+.acard-over { position:absolute; top:0; left:0; right:0; bottom:60px; background:linear-gradient(to top,rgba(44,26,14,.4),transparent 60%); opacity:0; transition:opacity .35s; }
+.acard:hover .acard-over { opacity:1; }
+.acard-info { padding:.9rem 0 0; }
+.acard-name { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--espresso); display:block; }
+.acard-role { display:inline-flex; align-items:center; gap:.3rem; font-size:.6rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--moss); margin-top:.15rem; }
+
+/* NEWSLETTER */
+.newsletter { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; background:var(--fern); padding:5.5rem 3.5rem; }
+.nl-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3vw,2.9rem); font-weight:900; color:var(--cream); line-height:1.1; }
+.nl-title em { font-style:italic; color:var(--pale); }
+.nl-sub { margin-top:.9rem; font-size:.93rem; line-height:1.7; font-weight:300; color:rgba(242,232,217,.68); }
+.nl-form { display:flex; }
+.nl-input { flex:1; padding:1rem 1.3rem; background:rgba(242,232,217,.12); border:1px solid rgba(242,232,217,.26); border-right:none; color:var(--cream); font-family:'DM Sans',sans-serif; font-size:.84rem; outline:none; transition:background .3s; }
+.nl-input::placeholder { color:rgba(242,232,217,.36); }
+.nl-input:focus { background:rgba(242,232,217,.2); }
+.nl-btn { display:flex; align-items:center; gap:.45rem; background:var(--espresso); color:var(--cream); border:none; padding:1rem 1.8rem; font-family:'DM Sans',sans-serif; font-size:.7rem; font-weight:500; letter-spacing:.14em; text-transform:uppercase; cursor:pointer; transition:background .3s; white-space:nowrap; }
+.nl-btn:hover { background:var(--mocha); }
+.nl-note { margin-top:.65rem; font-size:.57rem; letter-spacing:.1em; color:rgba(242,232,217,.36); display:inline-flex; align-items:center; gap:.35rem; }
+
+/* FOOTER */
+footer { background:var(--ink); padding:5rem 3.5rem 2.5rem; }
+.footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; padding-bottom:3.5rem; border-bottom:1px solid rgba(242,232,217,.07); }
+.f-logo { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; font-style:italic; color:var(--cream); display:block; margin-bottom:.9rem; letter-spacing:.07em; }
+.f-tagline { font-size:.86rem; line-height:1.72; font-weight:300; color:rgba(196,149,106,.55); max-width:220px; margin-bottom:1.8rem; }
+.f-socials { display:flex; gap:.7rem; }
+.f-soc { width:34px; height:34px; border:1px solid rgba(242,232,217,.1); display:flex; align-items:center; justify-content:center; color:rgba(242,232,217,.36); text-decoration:none; font-size:.78rem; transition:all .3s; }
+.f-soc:hover { border-color:var(--sage); color:var(--sage); }
+.f-col h4 { font-size:.58rem; font-weight:500; letter-spacing:.28em; text-transform:uppercase; color:var(--sage); margin-bottom:1.3rem; }
+.f-col ul { list-style:none; }
+.f-col li { margin-bottom:.6rem; }
+.f-col a { font-size:.84rem; color:rgba(242,232,217,.4); text-decoration:none; transition:color .3s; }
+.f-col a:hover { color:var(--latte); }
+.footer-bot { display:flex; justify-content:space-between; align-items:center; padding-top:1.8rem; }
+.footer-bot span { font-size:.58rem; letter-spacing:.1em; color:rgba(242,232,217,.2); }
+
+/* REVEAL */
+.reveal { opacity:0; transform:translateY(22px); transition:opacity .75s ease,transform .75s ease; }
+.reveal.in { opacity:1; transform:translateY(0); }
+
+/* KEYFRAMES */
+@keyframes fadeUp  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes bob     { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="curl"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">HA<span>M</span>AC</a>
+  <ul class="nav-links">
+    <li><a href="#gallery"><i class="fa-regular fa-image" style="font-size:.65rem;margin-right:.3rem"></i>Gallery</a></li>
+    <li><a href="#services"><i class="fa-solid fa-layer-group" style="font-size:.65rem;margin-right:.3rem"></i>Programs</a></li>
+    <li><a href="#events"><i class="fa-regular fa-calendar" style="font-size:.65rem;margin-right:.3rem"></i>Events</a></li>
+    <li><a href="#artists"><i class="fa-solid fa-users" style="font-size:.65rem;margin-right:.3rem"></i>Artists</a></li>
+  </ul>
+  <a class="nav-btn" href="#contact"><i class="fa-solid fa-location-dot" style="font-size:.65rem;margin-right:.4rem"></i>Visit Us</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-l">
+    <div class="kicker">
+      <div class="kicker-line"></div>
+      <span>Art &amp; Culture Collective · Est. 2024</span>
+    </div>
+    <h1 class="hero-title">
+      Where<br>
+      <em>Art</em><br>
+      <span class="gw">Breathes</span>
+    </h1>
+    <p class="hero-desc">HAMAC is a living space for drawing, painting, cultural dialogue and the kind of expression that refuses to be silenced.</p>
+    <div class="hero-btns">
+      <a class="btn-dark" href="#gallery">
+        <i class="fa-solid fa-arrow-right" style="font-size:.65rem"></i>
+        Explore Works
+      </a>
+      <a class="btn-link" href="#events">See Events</a>
+    </div>
+  </div>
+  <div class="hero-r">
+    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=900&q=80&auto=format&fit=crop" alt="Art studio with canvases">
+    <div class="hero-r-grad"></div>
+    <div class="pill p1"><div class="pill-dot"></div>Drawing</div>
+    <div class="pill p2"><div class="pill-dot" style="background:var(--pale)"></div>Culture</div>
+    <p class="vert-text">Zanzibar · Nairobi · Dakar</p>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Drawing</span><span class="dot">·</span>
+    <span>Painting</span><span class="dot">·</span>
+    <span>Culture</span><span class="dot">·</span>
+    <span>Residency</span><span class="dot">·</span>
+    <span>HAMAC</span><span class="dot">·</span>
+    <span>Exhibition</span><span class="dot">·</span>
+    <span>Identity</span><span class="dot">·</span>
+    <span>Drawing</span><span class="dot">·</span>
+    <span>Painting</span><span class="dot">·</span>
+    <span>Culture</span><span class="dot">·</span>
+    <span>Residency</span><span class="dot">·</span>
+    <span>HAMAC</span><span class="dot">·</span>
+    <span>Exhibition</span><span class="dot">·</span>
+    <span>Identity</span><span class="dot">·</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-l reveal">
+    <div class="eyebrow"><span>Who We Are</span></div>
+    <h2 class="sec-title">A space that holds<br><em>culture</em> with both hands</h2>
+    <p class="about-body">HAMAC was born from a simple belief: that art belongs to everyone and culture is best explored together. We are an open collective of artists, curators, and storytellers bridging drawing, painting, and living cultural practice.</p>
+    <p class="about-body">From intimate sketches to monumental works, every piece carries a conversation — about identity, place, memory, and what it means to make something by hand.</p>
+    <div class="stats">
+      <div><span class="stat-n">200+</span><span class="stat-l">Artists</span></div>
+      <div><span class="stat-n">48</span><span class="stat-l">Exhibitions</span></div>
+      <div><span class="stat-n">12</span><span class="stat-l">Countries</span></div>
+    </div>
+  </div>
+  <div class="about-r reveal">
+    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&q=80&auto=format&fit=crop" alt="Artist at work">
+    <div class="about-r-grad"></div>
+    <div class="about-badge">
+      <span class="about-badge-year">2024</span>
+      <span class="about-badge-lbl">Founded</span>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery reveal" id="gallery">
+  <div class="gallery-head">
+    <div>
+      <div class="eyebrow"><span>Selected Works</span></div>
+      <h2 class="sec-title" style="margin-bottom:0">The <em>Collection</em></h2>
+    </div>
+    <a class="link-all" href="#">View All <i class="fa-solid fa-arrow-right" style="font-size:.6rem"></i></a>
+  </div>
+  <div class="g-grid">
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=900&q=80&auto=format&fit=crop" alt="Roots and Amber">
+      <div class="gi-cap"><div><span class="gi-title">Roots &amp; Amber</span><span class="gi-sub">Mixed Media · 2024</span></div></div>
+    </div>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=600&q=80&auto=format&fit=crop" alt="Verdant Mind">
+      <div class="gi-cap"><div><span class="gi-title">Verdant Mind</span><span class="gi-sub">Drawing · 2024</span></div></div>
+    </div>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&q=80&auto=format&fit=crop" alt="Grid Memory">
+      <div class="gi-cap"><div><span class="gi-title">Grid Memory</span><span class="gi-sub">Etching · 2023</span></div></div>
+    </div>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=700&q=80&auto=format&fit=crop" alt="Spectrum Soil">
+      <div class="gi-cap"><div><span class="gi-title">Spectrum Soil</span><span class="gi-sub">Installation · 2024</span></div></div>
+    </div>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=600&q=80&auto=format&fit=crop" alt="Still Waters">
+      <div class="gi-cap"><div><span class="gi-title">Still Waters</span><span class="gi-sub">Watercolour · 2023</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services reveal" id="services">
+  <div class="eyebrow light"><span>What We Do</span></div>
+  <h2 class="sec-title light">Our <em>Practice</em></h2>
+  <div class="svc-grid">
+    <div class="svc">
+      <div class="svc-num">01</div>
+      <div class="svc-icon"><i class="fa-solid fa-pen-nib"></i></div>
+      <h3 class="svc-title">Drawing Ateliers</h3>
+      <p class="svc-body">Intensive workshops from figure studies to architectural sketching, led by practitioners at the height of their craft.</p>
+      <span class="svc-tag"><i class="fa-solid fa-tag" style="font-size:.5rem"></i> Workshop</span>
+    </div>
+    <div class="svc">
+      <div class="svc-num">02</div>
+      <div class="svc-icon"><i class="fa-regular fa-image"></i></div>
+      <h3 class="svc-title">Curated Exhibitions</h3>
+      <p class="svc-body">Thoughtful group and solo shows that challenge and celebrate — emerging voices alongside established masters.</p>
+      <span class="svc-tag"><i class="fa-solid fa-tag" style="font-size:.5rem"></i> Exhibition</span>
+    </div>
+    <div class="svc">
+      <div class="svc-num">03</div>
+      <div class="svc-icon"><i class="fa-solid fa-house"></i></div>
+      <h3 class="svc-title">Residency Program</h3>
+      <p class="svc-body">Six-week immersive residencies: studio space, critical dialogue, mentorship, and access to a global artist network.</p>
+      <span class="svc-tag"><i class="fa-solid fa-tag" style="font-size:.5rem"></i> Residency</span>
+    </div>
+    <div class="svc">
+      <div class="svc-num">04</div>
+      <div class="svc-icon"><i class="fa-regular fa-star"></i></div>
+      <h3 class="svc-title">Art Commissions</h3>
+      <p class="svc-body">Bespoke artwork for collectors, institutions, and public spaces — from intimate drawings to large-scale murals.</p>
+      <span class="svc-tag"><i class="fa-solid fa-tag" style="font-size:.5rem"></i> Commission</span>
+    </div>
+    <div class="svc">
+      <div class="svc-num">05</div>
+      <div class="svc-icon"><i class="fa-solid fa-microphone"></i></div>
+      <h3 class="svc-title">Cultural Talks</h3>
+      <p class="svc-body">Panels and intimate conversations exploring art, identity, memory, and the politics of making things by hand.</p>
+      <span class="svc-tag"><i class="fa-solid fa-tag" style="font-size:.5rem"></i> Talk</span>
+    </div>
+    <div class="svc">
+      <div class="svc-num">06</div>
+      <div class="svc-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+      <h3 class="svc-title">Art Market</h3>
+      <p class="svc-body">Quarterly markets connecting collectors with original works. Prints, originals, and multiples at accessible prices.</p>
+      <span class="svc-tag"><i class="fa-solid fa-tag" style="font-size:.5rem"></i> Market</span>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="events" id="events">
+  <div class="events-l reveal">
+    <div class="eyebrow"><span>What's On</span></div>
+    <h2 class="sec-title" style="margin-bottom:2rem">Upcoming <em>Events</em></h2>
+    <div class="event-row">
+      <div><span class="eday">14</span><span class="emon">Apr</span></div>
+      <div>
+        <span class="ename">Ink &amp; Identity</span>
+        <div class="evenue"><i class="fa-solid fa-location-dot" style="font-size:.55rem"></i> HAMAC Main Hall</div>
+        <span class="ebadge"><i class="fa-regular fa-star" style="font-size:.5rem"></i> Opening Night</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div><span class="eday">21</span><span class="emon">Apr</span></div>
+      <div>
+        <span class="ename">Figure Drawing Session</span>
+        <div class="evenue"><i class="fa-solid fa-location-dot" style="font-size:.55rem"></i> Studio B</div>
+        <span class="ebadge"><i class="fa-solid fa-pen-nib" style="font-size:.5rem"></i> Workshop</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div><span class="eday">03</span><span class="emon">May</span></div>
+      <div>
+        <span class="ename">Art &amp; Decolonisation</span>
+        <div class="evenue"><i class="fa-solid fa-location-dot" style="font-size:.55rem"></i> Reading Room</div>
+        <span class="ebadge"><i class="fa-solid fa-microphone" style="font-size:.5rem"></i> Talk</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div><span class="eday">18</span><span class="emon">May</span></div>
+      <div>
+        <span class="ename">Spring Art Market</span>
+        <div class="evenue"><i class="fa-solid fa-location-dot" style="font-size:.55rem"></i> Courtyard</div>
+        <span class="ebadge"><i class="fa-solid fa-bag-shopping" style="font-size:.5rem"></i> Market</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="events-r">
+    <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=900&q=80&auto=format&fit=crop" alt="Exhibition opening">
+    <div class="events-r-over">
+      <span class="ev-tag">Flagship · April 2025</span>
+      <h3 class="ev-head">Ink &amp;<br><em>Identity</em><br>Opens</h3>
+      <a class="btn-event" href="#">
+        <i class="fa-solid fa-ticket" style="font-size:.65rem"></i>
+        Get Tickets
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-sec reveal">
+  <blockquote>
+    "To draw is to remember the world as it truly is — raw, imperfect, and more beautiful than we dare to admit."
+    <cite>
+      <i class="fa-solid fa-feather" style="font-size:.6rem"></i>
+      HAMAC Manifesto, 2024
+    </cite>
+  </blockquote>
+</section>
+
+<!-- ARTISTS -->
+<section class="artists reveal" id="artists">
+  <div class="eyebrow"><span>The People</span></div>
+  <h2 class="sec-title">Featured <em>Artists</em></h2>
+  <div class="artists-grid">
+    <div class="acard">
+      <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=500&q=80&auto=format&fit=crop" alt="Zara Okonkwo">
+      <div class="acard-over"></div>
+      <div class="acard-info">
+        <span class="acard-name">Zara Okonkwo</span>
+        <span class="acard-role"><i class="fa-solid fa-location-dot" style="font-size:.52rem"></i> Illustrator · Lagos</span>
+      </div>
+    </div>
+    <div class="acard">
+      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80&auto=format&fit=crop" alt="Milo Ferreira">
+      <div class="acard-over"></div>
+      <div class="acard-info">
+        <span class="acard-name">Milo Ferreira</span>
+        <span class="acard-role"><i class="fa-solid fa-location-dot" style="font-size:.52rem"></i> Muralist · São Paulo</span>
+      </div>
+    </div>
+    <div class="acard">
+      <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=500&q=80&auto=format&fit=crop" alt="Sana Khalil">
+      <div class="acard-over"></div>
+      <div class="acard-info">
+        <span class="acard-name">Sana Khalil</span>
+        <span class="acard-role"><i class="fa-solid fa-location-dot" style="font-size:.52rem"></i> Conceptual · Karachi</span>
+      </div>
+    </div>
+    <div class="acard">
+      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&q=80&auto=format&fit=crop" alt="Tomás Vidal">
+      <div class="acard-over"></div>
+      <div class="acard-info">
+        <span class="acard-name">Tomás Vidal</span>
+        <span class="acard-role"><i class="fa-solid fa-location-dot" style="font-size:.52rem"></i> Sculptor · Madrid</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter reveal" id="contact">
+  <div>
+    <h2 class="nl-title">Stay in the<br><em>circle</em></h2>
+    <p class="nl-sub">Events, artist features, and cultural dispatches delivered to your inbox. No noise — only what matters.</p>
+  </div>
+  <div>
+    <div class="nl-form">
+      <input class="nl-input" type="email" placeholder="your@email.com">
+      <button class="nl-btn">
+        <i class="fa-solid fa-paper-plane" style="font-size:.65rem"></i>
+        Subscribe
+      </button>
+    </div>
+    <p class="nl-note">
+      <i class="fa-solid fa-shield-halved" style="font-size:.58rem"></i>
+      No spam. Unsubscribe any time.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="f-logo">Hamac</span>
+      <p class="f-tagline">Art. Drawing. Culture. A collective built on raw expression and radical dialogue.</p>
+      <div class="f-socials">
+        <a class="f-soc" href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a class="f-soc" href="#" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+        <a class="f-soc" href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a class="f-soc" href="#" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a class="f-soc" href="#" title="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Artists</a></li>
+        <li><a href="#">Exhibitions</a></li>
+        <li><a href="#">Archive</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Programs</h4>
+      <ul>
+        <li><a href="#">Workshops</a></li>
+        <li><a href="#">Residency</a></li>
+        <li><a href="#">Commissions</a></li>
+        <li><a href="#">Talks</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <span>© 2025 HAMAC Collective. All rights reserved.</span>
+    <span>Art · Drawing · Culture</span>
+  </div>
+</footer>
+
+<script>
+/* cursor */
+const cur=document.getElementById('cur'),curl=document.getElementById('curl');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+(function t(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  curl.style.left=rx+'px'; curl.style.top=ry+'px';
+  requestAnimationFrame(t);
+})();
+document.querySelectorAll('a,button,.gi,.acard,.svc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='16px';cur.style.height='16px';curl.style.width='50px';curl.style.height='50px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='9px';cur.style.height='9px';curl.style.width='34px';curl.style.height='34px';});
+});
+
+/* scroll reveal */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
