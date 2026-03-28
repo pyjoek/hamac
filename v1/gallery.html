@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Events — HAMAC</title>
+<title>Gallery — HAMAC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
@@ -18,8 +18,10 @@
 html { scroll-behavior:smooth; }
 img { display:block; max-width:100%; }
 body { background:var(--cream); color:var(--espresso); font-family:'DM Sans',sans-serif; overflow-x:hidden; cursor:none; }
+
 #cur  { position:fixed; width:9px; height:9px; background:var(--mocha); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .2s,height .2s; mix-blend-mode:multiply; }
 #curl { position:fixed; width:34px; height:34px; border:1.5px solid var(--moss); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .25s,height .25s; }
+
 nav { position:fixed; top:0; left:0; right:0; z-index:500; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 3.5rem; background:rgba(242,232,217,.92); backdrop-filter:blur(14px); border-bottom:1px solid rgba(92,51,23,.1); }
 .logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; letter-spacing:.18em; color:var(--espresso); text-decoration:none; }
 .logo span { color:var(--moss); }
@@ -31,36 +33,42 @@ nav { position:fixed; top:0; left:0; right:0; z-index:500; display:flex; align-i
 .nav-btn { font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; color:var(--cream); background:var(--espresso); padding:.7rem 1.6rem; text-decoration:none; transition:background .3s; }
 .nav-btn:hover { background:var(--fern); }
 
-/* EVENTS */
-.events { display:grid; grid-template-columns:1fr 1fr; padding-top:68px; background:var(--mist); min-height:calc(100vh - 68px); }
-.events-l { padding:7rem 4.5rem; border-right:1px solid rgba(92,51,23,.1); }
+/* PAGE HEADER */
+.page-header { padding:9rem 3.5rem 4rem; background:var(--parchment); }
 .eyebrow { display:flex; align-items:center; gap:.7rem; margin-bottom:1.6rem; }
 .eyebrow::before { content:''; width:26px; height:1px; background:var(--moss); flex-shrink:0; }
 .eyebrow span { font-size:.64rem; letter-spacing:.28em; text-transform:uppercase; color:var(--moss); font-weight:500; }
-.sec-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,3.4vw,3.6rem); font-weight:900; line-height:1.05; color:var(--espresso); }
+.sec-title { font-family:'Playfair Display',serif; font-size:clamp(2.4rem,4vw,5rem); font-weight:900; line-height:1; color:var(--espresso); }
 .sec-title em { font-style:italic; color:var(--mocha); }
-.event-row { display:grid; grid-template-columns:50px 1fr; gap:1.4rem; padding:1.5rem 0; border-bottom:1px solid rgba(92,51,23,.08); transition:padding-left .3s; }
-.event-row:hover { padding-left:.7rem; }
-.eday { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--mocha); line-height:1; display:block; }
-.emon { font-size:.52rem; letter-spacing:.18em; text-transform:uppercase; color:var(--moss); font-weight:500; }
-.ename { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--espresso); display:block; margin-bottom:.18rem; }
-.evenue { display:inline-flex; align-items:center; gap:.3rem; font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--moss); }
-.ebadge { display:inline-flex; align-items:center; gap:.3rem; margin-top:.4rem; padding:.18rem .65rem; background:rgba(122,148,112,.12); font-size:.55rem; letter-spacing:.14em; text-transform:uppercase; color:var(--fern); border-left:2px solid var(--moss); }
+.page-sub { margin-top:1rem; font-size:.96rem; line-height:1.75; font-weight:300; color:var(--coffee); max-width:500px; }
 
-.events-r { position:relative; overflow:hidden; }
-.events-r img { width:100%; height:100%; object-fit:cover; filter:sepia(18%) saturate(.82); }
-.events-r-over { position:absolute; inset:0; background:linear-gradient(to top,rgba(44,26,14,.88) 0%,rgba(44,26,14,.2) 55%,transparent 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:3.5rem; }
-.ev-tag { font-size:.6rem; letter-spacing:.28em; text-transform:uppercase; color:var(--sage); font-weight:500; display:block; margin-bottom:.9rem; }
-.ev-head { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,3vw,3.2rem); font-weight:900; color:var(--cream); line-height:1.1; margin-bottom:1.4rem; }
-.ev-head em { font-style:italic; color:var(--latte); }
-.btn-event { display:inline-flex; align-items:center; gap:.5rem; font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; color:var(--cream); background:var(--coffee); padding:.8rem 1.7rem; text-decoration:none; transition:background .3s; }
-.btn-event:hover { background:var(--fern); }
+/* GALLERY */
+.gallery { padding:4rem 3.5rem 7rem; background:var(--parchment); }
+.g-grid {
+  display:grid;
+  grid-template-areas: "a b c" "a d e";
+  grid-template-columns:2fr 1.2fr 1.2fr;
+  grid-template-rows:340px 280px;
+  gap:10px;
+}
+.gi { position:relative; overflow:hidden; }
+.gi:nth-child(1) { grid-area:a; }
+.gi:nth-child(2) { grid-area:b; }
+.gi:nth-child(3) { grid-area:c; }
+.gi:nth-child(4) { grid-area:d; }
+.gi:nth-child(5) { grid-area:e; }
+.gi img { width:100%; height:100%; object-fit:cover; filter:sepia(10%) saturate(.9); transition:transform .55s ease; }
+.gi:hover img { transform:scale(1.06); }
+.gi-cap { position:absolute; inset:0; display:flex; align-items:flex-end; padding:1.2rem; background:linear-gradient(to top,rgba(44,26,14,.75),transparent 55%); opacity:0; transition:opacity .35s; }
+.gi:hover .gi-cap { opacity:1; }
+.gi-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--cream); display:block; }
+.gi-sub { font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:var(--sage); }
 
-/* QUOTE */
-.quote-sec { background:var(--mocha); padding:6rem; text-align:center; position:relative; overflow:hidden; }
-.quote-sec::before { content:'\201C'; position:absolute; top:-2rem; left:2rem; font-family:'Playfair Display',serif; font-size:18rem; color:rgba(242,232,217,.05); line-height:1; pointer-events:none; }
-.quote-sec blockquote { font-family:'Playfair Display',serif; font-size:clamp(1.35rem,2.3vw,2.2rem); font-style:italic; color:var(--cream); max-width:740px; margin:0 auto; line-height:1.5; position:relative; z-index:1; }
-.quote-sec cite { display:flex; align-items:center; justify-content:center; gap:.5rem; margin-top:1.6rem; font-family:'DM Sans',sans-serif; font-size:.64rem; font-style:normal; font-weight:500; letter-spacing:.24em; text-transform:uppercase; color:var(--sage); }
+/* SECOND GRID */
+.gallery-more { padding:0 3.5rem 7rem; background:var(--cream); }
+.gallery-more-head { padding:4rem 0 2.5rem; border-top:1px solid rgba(92,51,23,.1); }
+.g-grid2 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.g-grid2 .gi { height:280px; }
 
 /* FOOTER */
 footer { background:var(--ink); padding:5rem 3.5rem 2.5rem; }
@@ -80,6 +88,7 @@ footer { background:var(--ink); padding:5rem 3.5rem 2.5rem; }
 
 .reveal { opacity:0; transform:translateY(22px); transition:opacity .75s ease,transform .75s ease; }
 .reveal.in { opacity:1; transform:translateY(0); }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
 
 /* HAMBURGER */
 .hamburger { display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:.5rem; z-index:601; width:36px; height:36px; }
@@ -103,19 +112,14 @@ footer { background:var(--ink); padding:5rem 3.5rem 2.5rem; }
   .nav-links a { display:block; padding:1.15rem 2rem; font-size:.85rem; letter-spacing:.18em; }
   .nav-visit-mobile { display:block; margin-top:2rem; font-size:.75rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--cream); background:var(--espresso); padding:.9rem 2.2rem; text-decoration:none; transition:background .3s; }
 
-  .events { grid-template-columns:1fr; min-height:auto; padding-top:58px; }
-  .events-l { padding:3.5rem 1.5rem 2.5rem; border-right:none; border-bottom:1px solid rgba(92,51,23,.1); }
-  .sec-title { font-size:clamp(1.8rem,8vw,2.8rem); }
-  .event-row { gap:1rem; padding:1.2rem 0; }
-  .eday { font-size:1.5rem; }
-  .ename { font-size:1rem; }
-  .events-r { min-height:65vw; }
-  .events-r-over { padding:1.8rem 1.5rem; }
-  .ev-head { font-size:clamp(1.5rem,6vw,2.2rem); }
-  .btn-event { padding:.7rem 1.4rem; font-size:.65rem; }
-
-  .quote-sec { padding:3.5rem 1.5rem; }
-  .quote-sec blockquote { font-size:clamp(1.1rem,4.5vw,1.6rem); }
+  .page-header { padding:5.5rem 1.5rem 2.5rem; }
+  .gallery { padding:2rem 1rem 3.5rem; }
+  .g-grid { grid-template-areas:"a""b""c""d""e"; grid-template-columns:1fr; grid-template-rows:72vw 56vw 56vw 56vw 56vw; }
+  .gi-title { font-size:.95rem; }
+  .gallery-more { padding:0 1rem 3.5rem; }
+  .gallery-more-head { padding:2rem 0 1.2rem; }
+  .g-grid2 { grid-template-columns:1fr; }
+  .g-grid2 .gi { height:56vw; }
 
   footer { padding:3.5rem 1.5rem 2rem; }
   footer .footer-top { grid-template-columns:1fr; gap:2.4rem; padding-bottom:2.5rem; }
@@ -131,9 +135,9 @@ footer { background:var(--ink); padding:5rem 3.5rem 2.5rem; }
 <nav>
   <a class="logo" href="index.html">HA<span>M</span>AC</a>
   <ul class="nav-links">
-    <li><a href="gallery.html"><i class="fa-regular fa-image" style="font-size:.65rem;margin-right:.3rem"></i>Gallery</a></li>
+    <li><a href="gallery.html" class="active"><i class="fa-regular fa-image" style="font-size:.65rem;margin-right:.3rem"></i>Gallery</a></li>
     <li><a href="programs.html"><i class="fa-solid fa-layer-group" style="font-size:.65rem;margin-right:.3rem"></i>Programs</a></li>
-    <li><a href="events.html" class="active"><i class="fa-regular fa-calendar" style="font-size:.65rem;margin-right:.3rem"></i>Events</a></li>
+    <li><a href="events.html"><i class="fa-regular fa-calendar" style="font-size:.65rem;margin-right:.3rem"></i>Events</a></li>
     <li><a href="artists.html"><i class="fa-solid fa-users" style="font-size:.65rem;margin-right:.3rem"></i>Artists</a></li>
     <li style="border-bottom:none!important"><a class="nav-visit-mobile" href="contact.html"><i class="fa-solid fa-location-dot" style="margin-right:.4rem"></i>Visit Us</a></li>
   </ul>
@@ -141,65 +145,58 @@ footer { background:var(--ink); padding:5rem 3.5rem 2.5rem; }
   <button class="hamburger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
-<section class="events">
-  <div class="events-l reveal">
-    <div class="eyebrow"><span>What's On</span></div>
-    <h2 class="sec-title" style="margin-bottom:2rem">Upcoming <em>Events</em></h2>
-    <div class="event-row">
-      <div><span class="eday">14</span><span class="emon">Apr</span></div>
-      <div>
-        <span class="ename">Ink &amp; Identity</span>
-        <div class="evenue"><i class="fa-solid fa-location-dot" style="font-size:.55rem"></i> HAMAC Main Hall</div>
-        <span class="ebadge"><i class="fa-regular fa-star" style="font-size:.5rem"></i> Opening Night</span>
-      </div>
+<div class="page-header">
+  <div class="eyebrow"><span>Selected Works</span></div>
+  <h1 class="sec-title">The <em>Collection</em></h1>
+  <p class="page-sub">A curated selection of works by HAMAC artists — spanning drawing, painting, installation, and beyond.</p>
+</div>
+
+<section class="gallery reveal">
+  <div class="g-grid">
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=900&q=80&auto=format&fit=crop" alt="Roots and Amber">
+      <div class="gi-cap"><div><span class="gi-title">Roots &amp; Amber</span><span class="gi-sub">Mixed Media · 2024</span></div></div>
     </div>
-    <div class="event-row">
-      <div><span class="eday">21</span><span class="emon">Apr</span></div>
-      <div>
-        <span class="ename">Figure Drawing Session</span>
-        <div class="evenue"><i class="fa-solid fa-location-dot" style="font-size:.55rem"></i> Studio B</div>
-        <span class="ebadge"><i class="fa-solid fa-pen-nib" style="font-size:.5rem"></i> Workshop</span>
-      </div>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=600&q=80&auto=format&fit=crop" alt="Verdant Mind">
+      <div class="gi-cap"><div><span class="gi-title">Verdant Mind</span><span class="gi-sub">Drawing · 2024</span></div></div>
     </div>
-    <div class="event-row">
-      <div><span class="eday">03</span><span class="emon">May</span></div>
-      <div>
-        <span class="ename">Art &amp; Decolonisation</span>
-        <div class="evenue"><i class="fa-solid fa-location-dot" style="font-size:.55rem"></i> Reading Room</div>
-        <span class="ebadge"><i class="fa-solid fa-microphone" style="font-size:.5rem"></i> Talk</span>
-      </div>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&q=80&auto=format&fit=crop" alt="Grid Memory">
+      <div class="gi-cap"><div><span class="gi-title">Grid Memory</span><span class="gi-sub">Etching · 2023</span></div></div>
     </div>
-    <div class="event-row">
-      <div><span class="eday">18</span><span class="emon">May</span></div>
-      <div>
-        <span class="ename">Spring Art Market</span>
-        <div class="evenue"><i class="fa-solid fa-location-dot" style="font-size:.55rem"></i> Courtyard</div>
-        <span class="ebadge"><i class="fa-solid fa-bag-shopping" style="font-size:.5rem"></i> Market</span>
-      </div>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=700&q=80&auto=format&fit=crop" alt="Spectrum Soil">
+      <div class="gi-cap"><div><span class="gi-title">Spectrum Soil</span><span class="gi-sub">Installation · 2024</span></div></div>
     </div>
-  </div>
-  <div class="events-r">
-    <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=900&q=80&auto=format&fit=crop" alt="Exhibition opening">
-    <div class="events-r-over">
-      <span class="ev-tag">Flagship · April 2025</span>
-      <h3 class="ev-head">Ink &amp;<br><em>Identity</em><br>Opens</h3>
-      <a class="btn-event" href="#">
-        <i class="fa-solid fa-ticket" style="font-size:.65rem"></i>
-        Get Tickets
-      </a>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=600&q=80&auto=format&fit=crop" alt="Still Waters">
+      <div class="gi-cap"><div><span class="gi-title">Still Waters</span><span class="gi-sub">Watercolour · 2023</span></div></div>
     </div>
   </div>
 </section>
 
-<section class="quote-sec reveal">
-  <blockquote>
-    "To draw is to remember the world as it truly is — raw, imperfect, and more beautiful than we dare to admit."
-    <cite>
-      <i class="fa-solid fa-feather" style="font-size:.6rem"></i>
-      HAMAC Manifesto, 2024
-    </cite>
-  </blockquote>
+<section class="gallery-more reveal">
+  <div class="gallery-more-head">
+    <div class="eyebrow"><span>Archive</span></div>
+    <h2 class="sec-title" style="font-size:clamp(1.6rem,2.5vw,2.6rem)">More <em>Works</em></h2>
+  </div>
+  <div class="g-grid2">
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?w=700&q=80&auto=format&fit=crop" alt="Ember Study">
+      <div class="gi-cap"><div><span class="gi-title">Ember Study</span><span class="gi-sub">Oil · 2023</span></div></div>
+    </div>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=700&q=80&auto=format&fit=crop" alt="Hollow Ground">
+      <div class="gi-cap"><div><span class="gi-title">Hollow Ground</span><span class="gi-sub">Charcoal · 2024</span></div></div>
+    </div>
+    <div class="gi">
+      <img src="https://images.unsplash.com/photo-1515405295579-ba7b45403062?w=700&q=80&auto=format&fit=crop" alt="Thread &amp; Tone">
+      <div class="gi-cap"><div><span class="gi-title">Thread &amp; Tone</span><span class="gi-sub">Textile · 2024</span></div></div>
+    </div>
+  </div>
 </section>
+
 
 <footer>
   <div class="footer-top">
@@ -231,7 +228,7 @@ const cur=document.getElementById('cur'),curl=document.getElementById('curl');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
 (function t(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; curl.style.left=rx+'px'; curl.style.top=ry+'px'; requestAnimationFrame(t); })();
-document.querySelectorAll('a,button').forEach(el=>{
+document.querySelectorAll('a,button,.gi').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.style.width='16px';cur.style.height='16px';curl.style.width='50px';curl.style.height='50px';});
   el.addEventListener('mouseleave',()=>{cur.style.width='9px';cur.style.height='9px';curl.style.width='34px';curl.style.height='34px';});
 });
